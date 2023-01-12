@@ -1,0 +1,49 @@
+openapi: 3.0.0
+info:
+  title: Sentiment Classification API
+  version: 0.1.0
+
+servers:
+  - url: http://localhost:8000/
+
+paths:
+  /predict_sentiments:
+    post:
+      summary: Predict sentiments probabilities
+      requestBody:
+        description: Returns predicted sentiment (NEUTRAL/POSITIVE/NEGATIVE) and scores for each sentient.
+        required: true
+        content:
+          application/json:
+            schema:
+                type: object
+                properties:
+                  text:
+                    type: string
+                    description: Text to predict sentiments
+          text/plain:
+            schema:
+              type: string
+      responses:
+        '200':
+          description: A JSON dict that includes most probable sentiment (NEUTRAL/POSITIVE/NEGATIVE) and scores of each sentiment.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  pred_label:
+                    type: string
+                    description: Predicted sentiment.
+                  probabilities:
+                    type: object
+                    properties:
+                      neutral:
+                        type: number
+                        format: float
+                      positive:
+                        type: number
+                        format: float
+                      negative:
+                        type: number
+                        format: float
